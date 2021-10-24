@@ -1,0 +1,239 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: SpotJobs Chat API
+
+Parameters:
+  ApiName:
+    Type: String
+    Description: API title
+    Default: SpotJobs-Socket-API
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Runtime: nodejs10.x
+
+Resources:
+  ####################################
+  ######### Functions ################
+  ####################################
+  OnConnectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join ["-", [!Ref ApiName, "OnConnect"]]
+      CodeUri: ./src/SocketHandlers/OnConnect
+      Handler: index.handler
+  OnDisconnectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join ["-", [!Ref ApiName, "OnDisconnect"]]
+      CodeUri: ./src/SocketHandlers/OnDisconnect
+      Handler: index.handler
+      Role: arn:aws:iam::408275994567:role/LambaRole
+      Layers:
+        - arn:aws:lambda:us-east-1:408275994567:layer:ManagersLayer:25
+        - arn:aws:lambda:us-east-1:408275994567:layer:DependenciesLayer:9
+  OnAuthenticateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join ["-", [!Ref ApiName, "onAuthenticate"]]
+      CodeUri: ./src/SocketHandlers/onAuthenticate
+      Handler: index.handler
+      Role: arn:aws:iam::408275994567:role/LambaRole
+      # Layers:
+      #   - arn:aws:lambda:us-east-1:408275994567:layer:ManagersLayer:25
+      #   - arn:aws:lambda:us-east-1:408275994567:layer:DependenciesLayer:9
+  SendMessageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Join ["-", [!Ref ApiName, "OnChatSendMessage"]]
+      CodeUri: ./src/SocketHandlers/OnChatSendMessage
+      Handler: index.handler
+      Role: arn:aws:iam::408275994567:role/LambaRole
+      Layers:
+        - arn:aws:lambda:us-east-1:408275994567:layer:ManagersLayer:25
+        - arn:aws:lambda:us-east-1:408275994567:layer:DependenciesLayer:9
+
+  ####################################
+  ########## Sockets #################
+  ####################################
+  SpotjobsWebSocket:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: SpotjobsWebSocket
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: "$request.body.action"
+  Deployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+      - ConnectRoute
+      - SendRoute
+      - DisconnectRoute
+      #- AuthenticateRoute
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      StageName: dev
+      Description: Dev Stage
+      DeploymentId: !Ref Deployment
+      ApiId: !Ref SpotjobsWebSocket
+
+  ####################################
+  ########### Routes #################
+  ####################################
+  ConnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+      RouteKey: $connect
+      AuthorizationType: NONE
+      OperationName: ConnectRoute
+      Target: !Join
+        - "/"
+        - - "integrations"
+          - !Ref ConnectInteg
+  DisconnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+      RouteKey: $disconnect
+      AuthorizationType: NONE
+      OperationName: DisconnectRoute
+      Target: !Join
+        - "/"
+        - - "integrations"
+          - !Ref DisconnectInteg
+  SendRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+      ApiKeyRequired: false
+      RouteKey: sendmessage
+      AuthorizationType: NONE
+      OperationName: SendRoute
+      Target: !Join
+        - "/"
+        - - "integrations"
+          - !Ref SendInteg
+  AuthenticateRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+      ApiKeyRequired: false
+      RouteKey: authenticate
+      AuthorizationType: NONE
+      OperationName: AuthenticateRoute
+      Target: !Join
+        - "/"
+        - - "integrations"
+          - !Ref AuthenticateInteg
+
+  ####################################
+  ########### Integrations ###########
+  ####################################
+  DisconnectInteg:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+      Description: Disconnect Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnDisconnectFunction.Arn}/invocations
+  SendInteg:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+      Description: Send Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SendMessageFunction.Arn}/invocations
+  AuthenticateInteg:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+      Description: Authenticate Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnAuthenticateFunction.Arn}/invocations
+  ConnectInteg:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref SpotjobsWebSocket
+      Description: Connect Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnConnectFunction.Arn}/invocations
+  ####################################
+  ########### Permissions ############
+  ####################################
+  OnConnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - SpotjobsWebSocket
+      - OnConnectFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OnConnectFunction
+      Principal: apigateway.amazonaws.com
+  OnDisconnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - SpotjobsWebSocket
+      - OnDisconnectFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OnDisconnectFunction
+      Principal: apigateway.amazonaws.com
+  SendMessagePermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - SpotjobsWebSocket
+      - SendMessageFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref SendMessageFunction
+      Principal: apigateway.amazonaws.com
+  AuthenticatePermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - SpotjobsWebSocket
+      - OnAuthenticateFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OnAuthenticateFunction
+      Principal: apigateway.amazonaws.com
+
+Outputs:
+  OnConnectFunctionArn:
+    Description: "OnConnect function ARN"
+    Value: !GetAtt OnConnectFunction.Arn
+
+  OnDisconnectFunctionArn:
+    Description: "OnDisconnect function ARN"
+    Value: !GetAtt OnDisconnectFunction.Arn
+
+  SendMessageFunctionArn:
+    Description: "SendMessage function ARN"
+    Value: !GetAtt SendMessageFunction.Arn
+
+  OnAuthenticateFunctionArn:
+    Description: " OnAuthenticateFunction function ARN"
+    Value: !GetAtt OnAuthenticateFunction.Arn
+
+  WebSocketURI:
+    Description: "The WSS Protocol URI to connect to"
+    Value:
+      !Join [
+        "",
+        [
+          "wss://",
+          !Ref SpotjobsWebSocket,
+          ".execute-api.",
+          !Ref "AWS::Region",
+          ".amazonaws.com/",
+          !Ref "Stage",
+        ],
+      ]

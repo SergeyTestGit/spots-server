@@ -1,0 +1,36 @@
+{
+  "dependencies": {
+    "@sokratis/passport-linkedin-oauth2": "^2.1.0",
+    "aws-sdk": "^2.608.0",
+    "axios": "^0.19.0",
+    "body-parser": "^1.18.3",
+    "dynamoose": "^1.7.2",
+    "express": "^4.16.4",
+    "lodash": "^4.17.15",
+    "moment": "^2.22.2",
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-oauth2": "^1.4.0",
+    "paypal-rest-sdk": "^1.8.1",
+    "serverless-http": "^1.9.0",
+    "shortid": "^2.2.14",
+    "uuid": "^3.3.2",
+    "yup": "^0.26.6"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-stage-3": "^7.0.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-source-map-support": "^2.0.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "chai": "^4.2.0",
+    "eslint-plugin-node": "^8.0.1",
+    "istanbul": "^0.4.5",
+    "jest": "^25.0.0"
+  }
+}

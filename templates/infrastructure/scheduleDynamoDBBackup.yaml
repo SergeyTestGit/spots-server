@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Sample template to schedule DynamoDB table backup using Lambda- V0.21
+
+Parameters:
+  BackupRetention:
+    Type: Number
+    Description: Days keep the backup
+    Default: 7
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Lambda Function
+        Parameters:
+          - BucketName
+          - FileName
+      - Label:
+          default: Target DynamoDB table to backup
+        Parameters:
+          - BackupRetention
+
+Resources:
+  LambdaServiceExecutionRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+        Version: "2012-10-17"
+      Path: "/"
+    Type: AWS::IAM::Role
+  LambdaServiceExecutionRolePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: DDBBackupLambdaRolePolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:logs:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - ":"
+                  - "log-group:"
+                  - "/aws/lambda/"
+                  - Ref: DDBBackup
+                  - ":*"
+          - Effect: Allow
+            Action:
+              - dynamodb:CreateBackup
+              - dynamodb:DeleteBackup
+            Resource:
+              - Fn::Join:
+                  - ""
+                  - - "arn:aws:dynamodb:"
+                    - Ref: AWS::Region
+                    - ":"
+                    - Ref: AWS::AccountId
+                    - ":"
+                    - table/*
+          - Effect: Allow
+            Action:
+              - dynamodb:ListBackups
+            Resource: "*"
+      Roles:
+        - Ref: LambdaServiceExecutionRole
+  ScheduledEvent:
+    Properties:
+      Description: CloudWatch event to trigger lambda SG function
+      ScheduleExpression: rate(1 day)
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - DDBBackup
+              - Arn
+          Id: DDBTarget
+    Type: AWS::Events::Rule
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+          - DDBBackup
+          - Arn
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+          - ScheduledEvent
+          - Arn
+  DDBBackup:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "Spotjobs-BackupDynamoDB"
+      CodeUri: ../../src/Utils/DynamoDBBackup
+      Handler: createDynamoDBTableBackup.lambda_handler
+      MemorySize: 128
+      KmsKeyArn: arn:aws:kms:us-east-1:408275994567:key/8b32a2a5-79f0-4866-aaa8-4b0d2982bedc
+      Role:
+        Fn::Sub: ${LambdaServiceExecutionRole.Arn}
+      Runtime: python3.7
+      Timeout: 300
+      Environment:
+        Variables:
+          BackupRetention:
+            Ref: BackupRetention

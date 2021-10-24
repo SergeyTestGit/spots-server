@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: create a public s3 bucket
+
+Parameters:
+  ProjectPrefix:
+    Type: String
+    Description: The Projects prefix (dev/prod)
+
+  BucketName:
+    Type: String
+    Description: The Bucket name
+
+  Versioning:
+    Type: String
+    Description: Should this bucket to enable versioning (Enabled / Suspended)
+    AllowedValues:
+      - Enabled
+      - Suspended
+
+  ObjectExpirationInDays:
+    Type: String
+    Description: The number of days before the Oject is expired, this causes amazon to remove the object (automatic Cleanup)
+    Default: 2555
+
+  TransitionDaysForIA:
+    Type: String
+    Description: The number of days number of days before the object is moved to infrequently accessed storage
+    Default: 90
+
+  TransitionDaysForGlacier:
+    Type: String
+    Description: The number of days number of days before the object is moved to aws Glacier storage (based on object creation date)
+    Default: 180
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: BucketOwnerFullControl
+      BucketName: !Sub ${ProjectPrefix}-${BucketName}-${AWS::AccountId}-${AWS::Region}
+      VersioningConfiguration:
+        Status: !Sub ${Versioning}
+
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowPublicRead
+            Effect: Allow
+            Principal:
+              AWS: "*"
+            Action: s3:GetObject
+            Resource:
+              - !Join ["", ["arn:aws:s3:::", !Ref "S3Bucket", "/*"]]
+
+Outputs:
+  PublicBucketName:
+    Value: !Ref S3Bucket
+    Export:
+      Name: !Sub ${ProjectPrefix}-${BucketName}-${AWS::AccountId}-${AWS::Region}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Ping</title>
+    </head>
+    <body>
+        <pre>Ping</pre>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+{
+  "Common": [
+    {
+      "PutRequest": {
+        "Item": {
+          "createdAt": {
+            "N": "1566372257679"
+          },
+          "type": {
+            "S": "freePointsActivePeriod"
+          },
+          "updatedAt": {
+            "N": "1566372257679"
+          },
+          "val": {
+            "S": "{ \"months\": 6 }"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "createdAt": {
+            "N": "1566372257679"
+          },
+          "type": {
+            "S": "monthPremiumSubscriptionCost"
+          },
+          "updatedAt": {
+            "N": "1566372257679"
+          },
+          "val": {
+            "S": "105"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "createdAt": {
+            "N": "1571281204220"
+          },
+          "type": {
+            "S": "popularCategories"
+          },
+          "updatedAt": {
+            "N": "1571281204221"
+          },
+          "val": {
+            "S": "[{\"popularity\":1,\"categoryId\":\"83fe7056-04ce-4726-aa51-a744f6e32136\"},{\"popularity\":2,\"categoryId\":\"3ceeddd6-0f38-4b3f-b3a9-c6e255a97208\"},{\"popularity\":3,\"categoryId\":\"e555245a-8e0c-4def-a36e-5b7222bc0e58\"},{\"popularity\":4,\"categoryId\":\"602ab22e-b87e-465d-9e91-d1d10db21879\"},{\"popularity\":5,\"categoryId\":\"1082ee2f-1c9d-447b-8ca7-f5ce1b24c6af\"},{\"popularity\":6,\"categoryId\":\"56b9b8eb-9855-46b8-a496-1e24bb3f803f\"},{\"popularity\":7,\"categoryId\":\"cd380d8b-ce68-4db6-bd6d-0d890ff80ffd\"},{\"popularity\":8,\"categoryId\":\"0857f39f-dc63-4b1e-83ff-b0c71e96f0af\"},{\"popularity\":9,\"categoryId\":\"2e076d9f-d3f0-485d-9f19-714f64dafa1c\"},{\"popularity\":10,\"categoryId\":\"ecb429d1-17de-4b47-a1e7-e3d3083485ba\"}]"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "createdAt": {
+            "N": "1566372257824"
+          },
+          "type": {
+            "S": "yearPremiumSubscription"
+          },
+          "updatedAt": {
+            "N": "1566372257824"
+          },
+          "val": {
+            "S": "1020"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "createdAt": {
+            "N": "1566372257679"
+          },
+          "type": {
+            "S": "purchasedPtsValidityPeriod"
+          },
+          "updatedAt": {
+            "N": "1566372257679"
+          },
+          "val": {
+            "S": "{ \"months\": 6 }"
+          }
+        }
+      }
+    }
+  ]
+}

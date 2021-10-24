@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: create an s3 bucket
+
+Parameters:
+  ProjectPrefix:
+    Type: String
+    Description: The Projects prefix (dev/prod)
+
+  BucketName:
+    Type: String
+    Description: The Bucket name
+
+  Versioning:
+    Type: String
+    Description: Should this bucket to enable versioning (Enabled / Suspended)
+    AllowedValues:
+      - Enabled
+      - Suspended
+    Default: Suspended
+
+  ObjectExpirationInDays:
+    Type: String
+    Description: The number of days before the Oject is expired, this causes amazon to remove the object (automatic Cleanup)
+    Default: 2555
+
+  TransitionDaysForIA:
+    Type: String
+    Description: The number of days number of days before the object is moved to infrequently accessed storage
+    Default: 90
+
+  TransitionDaysForGlacier:
+    Type: String
+    Description: The number of days number of days before the object is moved to aws Glacier storage (based on object creation date)
+    Default: 180
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: BucketOwnerFullControl
+      BucketName: !Sub ${ProjectPrefix}-${BucketName}-${AWS::AccountId}-${AWS::Region}
+      VersioningConfiguration:
+        Status: !Sub ${Versioning}
+
+Outputs:
+  APIBucketName:
+    Value: !Ref S3Bucket
+    Export:
+      Name: !Sub ${ProjectPrefix}-${BucketName}-${AWS::AccountId}-${AWS::Region}

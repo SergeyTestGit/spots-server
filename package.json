@@ -1,0 +1,38 @@
+{
+  "name": "spotjobs",
+  "version": "0.0.2-alpha",
+  "description": "",
+  "scripts": {
+    "tester": "sam.cmd --version",
+    "test": "jest",
+    "dev": "sam.cmd local start-api --port 8080",
+    "coverage": " istanbul cover npm test",
+    "package": "sh ./commands/package.sh",
+    "create-bucket": "sh ./commands/create_bucket.sh",
+    "deploy-package": "sh ./commands/deploy_cloudformation.sh",
+    "deploy": "sh ./commands/package.sh && sh ./commands/deploy_cloudformation.sh",
+    "create-bucket:socket": "sh ./commands/create_bucket.socket.sh",
+    "deploy-package:socket": "sh ./commands/deploy_cloudformation.socket.sh",
+    "deploy:socket": "sh ./commands/package.socket.sh && sh ./commands/deploy_cloudformation.socket.sh",
+    "create-bucket:prod": "sh ./commands/create_bucket_prod.sh",
+    "deploy-package:prod": "sh ./commands/deploy_cloudformation_prod.sh",
+    "deploy:prod": "sh ./commands/package_prod.sh && sh ./commands/deploy_cloudformation_prod.sh"
+  },
+  "author": "ZenBit Tech",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.1",
+    "body-parser": "^1.19.0",
+    "dynamoose": "^1.11.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "shortid": "^2.2.15",
+    "yup": "^0.28.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "chai": "^4.2.0"
+  }
+}

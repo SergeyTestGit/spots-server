@@ -1,0 +1,192 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: create an s3 bucket
+
+Parameters:
+  ProjectPrefix:
+    Type: String
+    Description: The Projects prefix (e.g. opsste, crew, ec)
+    Default: spotjobs
+
+  BucketName:
+    Type: String
+    Description: The Bucket Prefix
+
+  Versioning:
+    Type: String
+    Description: Should this bucket to enable versioning (Enabled / Suspended)
+    AllowedValues:
+    - Enabled
+    - Suspended
+
+  ObjectExpirationInDays:
+    Type: String
+    Description: The number of days before the Oject is expired, this causes amazon to remove the object (automatic Cleanup)
+    Default: 2555
+
+  TransitionDaysForIA:
+    Type: String
+    Description: The number of days number of days before the object is moved to infrequently accessed storage
+    Default: 90
+
+  TransitionDaysForGlacier:
+    Type: String
+    Description: The number of days number of days before the object is moved to aws Glacier storage (based on object creation date)
+    Default: 180
+
+
+
+Resources:
+  SpotJobsKmsKey:
+    Type: 'AWS::KMS::Key'
+    Properties:
+      Description: 'Spot jobs authorized KMS key'
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: "2012-10-17"
+        Id: "spotjobs-kms-key-policy"
+        Statement:
+        - Sid: "Allow administration of the key"
+          Effect: "Allow"
+          Principal:
+            AWS: !Sub "arn:aws:iam::${AWS::AccountId}:role/AtomxOrganizationAccountAccessRole"
+          Action:
+          - "kms:Create*"
+          - "kms:Describe*"
+          - "kms:Enable*"
+          - "kms:List*"
+          - "kms:Put*"
+          - "kms:Update*"
+          - "kms:Revoke*"
+          - "kms:Disable*"
+          - "kms:Get*"
+          - "kms:Delete*"
+          - "kms:ScheduleKeyDeletion"
+          - "kms:CancelKeyDeletion"
+          Resource: "*"
+        - Sid: "Allow use of the key"
+          Effect: "Allow"
+          Principal:
+            AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+          Action:
+          - "kms:Encrypt"
+          - "kms:Decrypt"
+          - "kms:ReEncrypt*"
+          - "kms:GenerateDataKey*"
+          - "kms:DescribeKey"
+          - "kms:List*"
+          - "kms:Get*"
+          Resource: "*"
+        - Sid: "Allow attachment of persistent resources"
+          Effect: "Allow"
+          Principal:
+            AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+          Action:
+          - "kms:CreateGrant"
+          - "kms:ListGrants"
+          - "kms:RevokeGrant"
+          Resource: "*"
+        - Sid: "Allow CloudTrail to encrypt logs"
+          Effect: "Allow"
+          Principal:
+            Service: "cloudtrail.amazonaws.com"
+          Action:
+          - "kms:GenerateDataKey*"
+          Resource: "*"
+          Condition:
+            StringLike:
+              "kms:EncryptionContext:aws:cloudtrail:arn": !Sub "arn:aws:cloudtrail:*:${AWS::AccountId}:trail/*"
+        - Sid: "Allow CloudTrail access"
+          Effect: "Allow"
+          Principal:
+            Service: "cloudtrail.amazonaws.com"
+          Action:
+          - "kms:DescribeKey"
+          Resource: "*"
+        - Sid: "Allow SNS access"
+          Effect: "Allow"
+          Principal:
+            Service: "sns.amazonaws.com"
+          Action:
+          - "kms:GenerateDataKey"
+          - "kms:Decrypt"
+          - "kms:DescribeKey"
+          Resource: "*"
+
+
+
+    myKeyAlias:
+      Type: AWS::KMS::Alias
+      Properties:
+        AliasName: !Sub "alias/spotjobs_${AWS::AccountId}_kms"
+        TargetKeyId:
+          Ref: SpotJobsKmsKey
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: BucketOwnerFullControl
+      BucketName: !Sub ${ProjectPrefix}-${BucketName}-${AWS::AccountId}-${AWS::Region}
+      VersioningConfiguration:
+        Status: !Sub ${Versioning}
+      LifecycleConfiguration:
+        Rules:
+        - Id: IA Rule
+          Prefix: IA
+          Status: Enabled
+          ExpirationInDays: !Ref ObjectExpirationInDays
+          Transition:
+            TransitionInDays: !Ref TransitionDaysForGlacier
+            StorageClass: Glacier
+        - Id: Glacier Rule
+          Prefix: Glacier
+          Status: Enabled
+          ExpirationInDays: !Ref ObjectExpirationInDays
+          Transition:
+            TransitionInDays: !Ref TransitionDaysForGlacier
+            StorageClass: Glacier
+
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: aws:kms
+            KMSMasterKeyID: !GetAtt SpotJobsKmsKey.Arn
+
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Id: PutObjPolicy
+        Statement:
+        - Sid:  DenyUnEncryptedObjectUploads
+          Effect: Deny
+          Principal:
+            AWS: !Sub "${AWS::AccountId}"
+          Action: s3:PutObject
+          Resource:
+          - !Sub arn:aws:s3:::${S3Bucket}/*
+          Condition:
+            StringNotEquals:
+              's3:x-amz-server-side-encryption-aws-kms-key-id':
+                Fn::ImportValue:
+                  !Sub "${AWS::AccountId}-${AWS::Region}-swa-kms-key-arn"
+            StringNotEquals:
+              's3:x-amz-server-side-encryption': 'aws:kms'
+
+        - Sid: Enforce HTTPS Connections
+          Action: s3:*
+          Effect: Deny
+          Principal:
+            AWS: !Sub "${AWS::AccountId}"
+          Resource:
+          - !Sub arn:aws:s3:::${S3Bucket}/
+          Condition:
+            Bool:
+              aws:SecureTransport: false
+
+  Outputs:
+    KmsKeyArn:
+      Value: !GetAtt SpotJobsKmsKey.Arn
+      Export:
+        Name: !Sub "${AWS::AccountId}-${AWS::Region}-spotjobs-kms-key-arn"

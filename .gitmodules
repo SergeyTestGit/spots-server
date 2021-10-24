@@ -1,0 +1,3 @@
+[submodule "dependencies/nodejs/Constants/currency/spotJobs-country-currencies"]
+	path = src/Submodules/spotJobs-country-currencies
+	url = https://github.com/atomxllc/spotJobs-country-currencies.git

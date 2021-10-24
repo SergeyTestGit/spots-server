@@ -1,0 +1,284 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Create AWS Cognito User Pool
+
+Parameters:
+  ProjectPrefix:
+    Type: String
+    Description: The Projects prefix
+    Default: spotjobs
+  UserPoolName:
+    Type: String
+    Description: The UserPool Name
+  AutoVerifiedAttributes:
+    Type: CommaDelimitedList
+    Description: The attributes to be auto-verified (email / phone_number )
+    Default: "phone_number, email"
+    AllowedValues:
+      - "email"
+      - "phone_number"
+      - "phone_number, email"
+  AccountValidityDays:
+    Type: Number
+    Description: The user account expiration limit, in days, after which the account is no longer usable.
+    Default: 365
+  VerificationMessage:
+    Type: String
+    Description: A string representing the SMS verification message. Must contain {####} in the message.
+    Default: Your SpotJobs account verification code is {####}
+
+Resources:
+  # Creates a role that allows Cognito to send SNS messages
+  SNSRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "cognito-idp.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: "CognitoSNSPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action: "sns:publish"
+                Resource: "*"
+
+  # Creates a user pool in cognito
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+        UnusedAccountValidityDays: !Ref AccountValidityDays
+      AliasAttributes:
+        - phone_number
+        - email
+        - preferred_username
+      AutoVerifiedAttributes: !Ref AutoVerifiedAttributes
+      MfaConfiguration: "OPTIONAL"
+      SmsConfiguration:
+        ExternalId: !Sub ${ProjectPrefix}-${UserPoolName}-${AWS::AccountId}-${AWS::Region}-external
+        SnsCallerArn: !GetAtt SNSRole.Arn
+      UserPoolName: !Sub ${ProjectPrefix}-${UserPoolName}-${AWS::AccountId}-${AWS::Region}
+      Policies:
+        PasswordPolicy:
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireUppercase: true
+          RequireSymbols: false
+          MinimumLength: 8
+      SmsVerificationMessage: !Ref VerificationMessage
+      EmailVerificationMessage: !Ref VerificationMessage
+      Schema:
+        - Name: email
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: phone_number
+          AttributeDataType: String
+          Mutable: true
+          Required: false
+        - Name: birthdate
+          AttributeDataType: String
+          Mutable: true
+        - Name: family_name
+          AttributeDataType: String
+          Mutable: true
+        - Name: given_name
+          AttributeDataType: String
+          Mutable: true
+        - Name: locale
+          AttributeDataType: String
+          Mutable: true
+        - Name: address
+          AttributeDataType: String
+          Mutable: true
+        - Name: middle_name
+          AttributeDataType: String
+          Mutable: true
+        - Name: gender
+          AttributeDataType: String
+          Mutable: true
+        - Name: picture
+          AttributeDataType: String
+          Mutable: true
+        - Name: preferred_username
+          AttributeDataType: String
+          Mutable: true
+        - Name: website
+          AttributeDataType: String
+          Mutable: true
+        - Name: avatarURL
+          AttributeDataType: String
+          Mutable: true
+        - Name: isPro
+          AttributeDataType: Number
+          Mutable: true
+          NumberAttributeConstraints:
+            MaxValue: "1"
+            MinValue: "0"
+        - Name: isPremium
+          AttributeDataType: Number
+          Mutable: true
+          NumberAttributeConstraints:
+            MaxValue: "1"
+            MinValue: "0"
+        - Name: isProvider
+          AttributeDataType: Number
+          Mutable: true
+          NumberAttributeConstraints:
+            MaxValue: "1"
+            MinValue: "0"
+        - Name: isAgreedWithTerms
+          AttributeDataType: Number
+          Mutable: true
+          NumberAttributeConstraints:
+            MaxValue: "1"
+            MinValue: "0"
+        - Name: about
+          AttributeDataType: String
+          Mutable: true
+        - Name: geolocation
+          AttributeDataType: String
+          Mutable: true
+        - Name: city
+          AttributeDataType: String
+          Mutable: true
+          Required: false
+        - Name: state
+          AttributeDataType: String
+          Mutable: true
+        - Name: zip
+          AttributeDataType: String
+          Mutable: true
+        - Name: country
+          AttributeDataType: String
+          Mutable: true
+        - Name: idPics
+          AttributeDataType: String
+          Mutable: true
+        - Name: authProvider
+          AttributeDataType: String
+          Mutable: true
+        - Name: usedLanguage
+          AttributeDataType: String
+          Mutable: true
+        - Name: preferredLanguage
+          AttributeDataType: String
+          Mutable: true
+        - Name: rate
+          AttributeDataType: Number
+          Mutable: true
+          NumberAttributeConstraints:
+            MaxValue: "5"
+            MinValue: "0"
+        - Name: settings_notif
+          AttributeDataType: Number
+          Mutable: true
+          NumberAttributeConstraints:
+            MaxValue: "1"
+            MinValue: "0"
+        - Name: settings_job_allerts
+          AttributeDataType: Number
+          Mutable: true
+          NumberAttributeConstraints:
+            MaxValue: "1"
+            MinValue: "0"
+        - Name: deletion_reason
+          AttributeDataType: String
+          Mutable: true
+        - Name: account_status
+          AttributeDataType: String
+          Mutable: true
+
+  # Creates a User Pool Client to be used by the identity pool
+  UserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: !Sub ${ProjectPrefix}-${UserPoolName}-${AWS::AccountId}-${AWS::Region}-client
+      GenerateSecret: false
+      UserPoolId: !Ref CognitoUserPool
+      ExplicitAuthFlows:
+        - USER_PASSWORD_AUTH
+      ReadAttributes:
+        - email
+        - phone_number
+        - birthdate
+        - family_name
+        - given_name
+        - locale
+        - address
+        - email_verified
+        - middle_name
+        - phone_number_verified
+        - gender
+        - picture
+        - preferred_username
+        - website
+        - custom:avatarURL
+        - custom:isPro
+        - custom:isPremium
+        - custom:isProvider
+        - custom:isAgreedWithTerms
+        - custom:about
+        - custom:geolocation
+        - custom:city
+        - custom:state
+        - custom:zip
+        - custom:country
+        - custom:idPics
+        - custom:authProvider
+        - custom:usedLanguage
+        - custom:preferredLanguage
+        - custom:rate
+        - custom:settings_notif
+        - custom:settings_job_allerts
+        - custom:deletion_reason
+        - custom:account_status
+      WriteAttributes:
+        - email
+        - phone_number
+        - birthdate
+        - family_name
+        - given_name
+        - locale
+        - address
+        - middle_name
+        - gender
+        - picture
+        - preferred_username
+        - website
+        - custom:avatarURL
+        - custom:isPro
+        - custom:isPremium
+        - custom:isProvider
+        - custom:isAgreedWithTerms
+        - custom:about
+        - custom:geolocation
+        - custom:city
+        - custom:state
+        - custom:zip
+        - custom:country
+        - custom:idPics
+        - custom:authProvider
+        - custom:usedLanguage
+        - custom:preferredLanguage
+        - custom:rate
+        - custom:settings_notif
+        - custom:settings_job_allerts
+        - custom:deletion_reason
+        - custom:account_status
+
+Outputs:
+  UserPoolArn:
+    Value: !Ref CognitoUserPool
+    Export:
+      Name: !Sub "${AWS::AccountId}-${AWS::Region}-${ProjectPrefix}-${UserPoolName}-arn"
+  UserPoolClientId:
+    Value: !Ref UserPoolClient

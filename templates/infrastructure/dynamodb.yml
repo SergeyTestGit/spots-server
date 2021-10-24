@@ -1,0 +1,277 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: DynamoDB tables
+
+Parameters:
+  ProjectPrefix:
+    Type: String
+    Description: Project Name
+    Default: spotjobs
+
+Resources:
+  ApplyForJobTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "ApplyForJob"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  ChatTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Chat"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  CommonTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Common"
+      PrimaryKey:
+        Name: type
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  FavouriteJobTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "FavouriteJob"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  FavouriteSPTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "FavouriteSP"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  JobTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Job"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  JobArchiveTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "JobArchive"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  JobIgnoreTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "JobIgnore"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  JobRequestTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "JobRequest"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  JobReviewTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "JobReview"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  NotificationTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Notification"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  PendingTransactionTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "PendingTransaction"
+      PrimaryKey:
+        Name: transactionId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  PtsPriceTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "PtsPrice"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  ServiceTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Service"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  SocketConnectionTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "SocketConnection"
+      PrimaryKey:
+        Name: connectionId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  SubscriptionTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Subscription"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  TransactionTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Transaction"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  UserTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "User"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
+  UserReportTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "UserReport"
+      PrimaryKey:
+        Name: _id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      Tags:
+        Project: !Ref ProjectPrefix
+      SSESpecification:
+        SSEEnabled: true
