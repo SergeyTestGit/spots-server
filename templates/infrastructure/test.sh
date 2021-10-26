@@ -1,5 +1,5 @@
 ACCOUNT_ID="408275994567"
-REGION="us-east-1"
+REGION="us-east-2"
 
 # echo "EXPORTS $EXPORTS"
 echo "KMS_KEY_ID $KMS_KEY_ID"

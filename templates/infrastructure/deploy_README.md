@@ -27,11 +27,11 @@ You need to be installed:
 ## Possible parameters
 
 **Please Note**
-Such parameters as userpool name or any of bucket names would be prefixed with the project prefix and post fixed with the account number and the region (eg. `spotjobs-test-bucket-123456789012-us-east-1`)
+Such parameters as userpool name or any of bucket names would be prefixed with the project prefix and post fixed with the account number and the region (eg. `spotjobs-test-bucket-123456789012-us-east-2`)
 
 | Parameter Name                | Description                    | Default Value                        |
 | ----------------------------- | ------------------------------ | ------------------------------------ |
-| --region                      | AWS Region to deploy the App   | us-east-1                            |
+| --region                      | AWS Region to deploy the App   | us-east-2                            |
 | --aws-profile                 | AWS Profile to deploy the App  | default                              |
 | --project-prefix              | Project Prefix                 | spotjobs                             |
 | --userpool-name               | AWS Cognito Userpool name      | users                                |
@@ -42,7 +42,7 @@ Such parameters as userpool name or any of bucket names would be prefixed with t
 | --socket-server-instance-type | Socket Server Instance Type    | t2.micro                             |
 | --lambdas-bucket-name         | API lambdas bucket name        | lambdas                              |
 | --stage-name                  | API Gateway stage name         | prod                                 |
-| --web-app-domain-name         | Web App Domain Name            | spotjobsapp.com                      |
+| --web-app-domain-name         | Web App Domain Name            | api.spotjobsapp.com                      |
 | --web-app-domain-ssl-cert-id  | Web App Domain SSL ACM Cert ID | a8d345db-d93d-41cc-9a09-70424f667009 |
 | --db-regions                  | Regions to deploy DB Tables    | `!Ref --region`                      |
 |                               | (regions separated with space) |                                      |

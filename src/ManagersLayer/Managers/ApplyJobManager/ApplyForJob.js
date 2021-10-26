@@ -1,7 +1,7 @@
 const { NODE_ENV } = process.env;
 const dynamoose = require("dynamoose");
 dynamoose.AWS.config.update({
-  region: 'us-east-1'
+  region: 'us-east-2'
 });
 const { Schema } = dynamoose;
 

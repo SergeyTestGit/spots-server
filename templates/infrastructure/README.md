@@ -2,7 +2,7 @@ Service Catalog that creates an s3 bucket
 To run this template:
 
 
-aws --region <us-east-1/us-west-2> cloudformation deploy \
+aws --region <us-east-2/us-west-2> cloudformation deploy \
     --stack-name SpotJobs-Infrastructure-Stack \
     --no-fail-on-empty-changeset \
     --template-file s3-devops-bucket-and-cmk.yml \
@@ -22,7 +22,7 @@ aws --region <us-east-1/us-west-2> cloudformation deploy \
 
 
 ## there is a bug in the bboto3 that causes it not to support the --no-fail-on-empty-changeset  , if this happens to you please remove that flag
-aws --region us-east-1 cloudformation deploy \
+aws --region us-east-2 cloudformation deploy \
     --stack-name SpotJobs-Infrastructure-Kms-Key-Stack \
     --no-fail-on-empty-changeset \
     --template-file kms_key.yml \
@@ -34,7 +34,7 @@ aws --region us-east-1 cloudformation deploy \
       "BusinessService=Spot Jobs"
       
       
-aws --region <us-east-1/us-west-2> cloudformation deploy \
+aws --region <us-east-2/us-west-2> cloudformation deploy \
     --stack-name SpotJobs-Infrastructure-Stack \
     --no-fail-on-empty-changeset \
     --template-file s3-template.yml \
@@ -54,7 +54,7 @@ aws --region <us-east-1/us-west-2> cloudformation deploy \
 
 Service Catalog that creates a Cognito User Pool
 To run this template:
-aws --region <us-east-1/us-west-2> cloudformation deploy \
+aws --region <us-east-2/us-west-2> cloudformation deploy \
     --stack-name SpotJobs-Infrastructure-Stack \
     --no-fail-on-empty-changeset \
     --template-file cognito-user-pool.yml \
@@ -66,7 +66,7 @@ aws --region <us-east-1/us-west-2> cloudformation deploy \
       UnusedAccountValidityDays= The user account expiration limit, in days, after which the account is no longer usable.     Default 365
 
 VPC template
-aws --region us-east-1 cloudformation deploy \
+aws --region us-east-2 cloudformation deploy \
     --stack-name SpotJobs-Infrastructure-Stack \
     --no-fail-on-empty-changeset \
     --template-file vpc.yml \
@@ -75,7 +75,7 @@ aws --region us-east-1 cloudformation deploy \
       ProjectPrefix="SpotJobs"
 
 Client app role 
-aws --region us-east-1 cloudformation deploy \
+aws --region us-east-2 cloudformation deploy \
     --stack-name SpotJobs-Client-Stack \
     --no-fail-on-empty-changeset \
     --template-file app-user-role.yml \

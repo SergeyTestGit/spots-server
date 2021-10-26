@@ -3,7 +3,7 @@
 BOLD_TEXT=$(tput bold)
 NORMAL_TEXT=$(tput sgr0)
 
-REGION="us-east-1"
+REGION="us-east-2"
 AWS_PROFILE="default"
 
 DB_REGIONS=()

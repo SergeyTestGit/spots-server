@@ -2,9 +2,9 @@
 
 PROJECT_PREFIX="spotjobs"
 IMAGES_BUCKET_NAME="spotjob-images"
-PROFILE_IMAGES_BUCKET_NAME="ec-spotjobs-profile-images-097579889258-us-east-1"
+PROFILE_IMAGES_BUCKET_NAME="ec-spotjobs-profile-images-097579889258-us-east-2"
 USERNAME_NAME="app-client-user"
-KMS_KEY_ARN="arn:aws:kms:us-east-1:097579889258:key/959df08d-4287-436b-bc66-4628d9ea4534"
+KMS_KEY_ARN="arn:aws:kms:us-east-2:097579889258:key/959df08d-4287-436b-bc66-4628d9ea4534"
 AWS_PROFILE="default"
 
 while [ "$1" != "" ]; do

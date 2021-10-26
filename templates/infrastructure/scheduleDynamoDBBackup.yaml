@@ -110,7 +110,7 @@ Resources:
       CodeUri: ../../src/Utils/DynamoDBBackup
       Handler: createDynamoDBTableBackup.lambda_handler
       MemorySize: 128
-      KmsKeyArn: arn:aws:kms:us-east-1:408275994567:key/8b32a2a5-79f0-4866-aaa8-4b0d2982bedc
+      KmsKeyArn: arn:aws:kms:us-east-2:408275994567:key/8b32a2a5-79f0-4866-aaa8-4b0d2982bedc
       Role:
         Fn::Sub: ${LambdaServiceExecutionRole.Arn}
       Runtime: python3.7

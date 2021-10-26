@@ -171,7 +171,7 @@ source_profile = default
 
 run the following a bash script
 ```bash
-for region in $(aws --region us-east-1 --profile Prod-Spotjobs ec2 describe-regions | jq -r .Regions[].RegionName);
+for region in $(aws --region us-east-2 --profile Prod-Spotjobs ec2 describe-regions | jq -r .Regions[].RegionName);
 do \
 echo $region; \
 aws --region $region cloudformation deploy --template-file kms_key.yml \

@@ -14,7 +14,7 @@ module.exports = async (event, options = {}) => {
     authorizationToken,
     type: "TOKEN",
     methodArn:
-      "arn:aws:execute-api:us-east-1:408275994567:rt3gyimcs1/ESTestInvoke-stage/"
+      "arn:aws:execute-api:us-east-2:408275994567:rt3gyimcs1/ESTestInvoke-stage/"
   };
 
   const [error, policy] = await AuthManager.authorizeEvent(authorizerEvent);

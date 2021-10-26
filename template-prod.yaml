@@ -18,11 +18,11 @@ Parameters:
   ProfileImagesBucketName:
     Type: String
     Description: Profile images bucket name
-    Default: spotjobs-profile-images-097579889258-us-east-1
+    Default: spotjobs-profile-images-097579889258-us-east-2
   ImagesBucketName:
     Type: String
     Description: Images Bucket name
-    Default: spotjobs-images-097579889258-us-east-1
+    Default: spotjobs-images-097579889258-us-east-2
   SocketServerUrl:
     Type: String
     Description: Socket Server URL
@@ -56,15 +56,15 @@ Globals:
         #OAuth Google configs
         PROVIDER_GOOGLE_ID: "524873855211-4m45do11tm07s5017osdvado7p0hlkv7.apps.googleusercontent.com"
         PROVIDER_GOOGLE_SECRET: "NAzA0R9IQPbVqU4lkAoV01R2"
-        GOOGLE_AUTH_CLIENT_REDIRRECT: "https://spotjobsapp.com/"
+        GOOGLE_AUTH_CLIENT_REDIRRECT: "https://api.spotjobsapp.com/"
         #OAuth Facebook configs
         PROVIDER_FACEBOOK_ID: "346805129212763"
         PROVIDER_FACEBOOK_SECRET: "7c517c89b204d641ca822e4ae4e63321"
-        FACEBOOK_AUTH_CLIENT_REDIRRECT: "https://spotjobsapp.com/"
+        FACEBOOK_AUTH_CLIENT_REDIRRECT: "https://api.spotjobsapp.com/"
         #OAuth LinkedIn configs
         PROVIDER_LINKEDIN_CLIENT_ID: "783fasrlywrxz3"
         PROVIDER_LINKEDIN_CLIENT_SECRET: "KlpQsMKPSf5Q1b9e"
-        LINKEDIN_AUTH_CLIENT_REDIRRECT: "https://spotjobsapp.com/"
+        LINKEDIN_AUTH_CLIENT_REDIRRECT: "https://api.spotjobsapp.com/"
         SHOULD_PHONE_BE_VERIFIED_IN_COMPLETE_PROFILE: false
         SEND_NOTIFICATION_ENDPOINT:
           !Join ["/", [!Ref SocketServerUrl, "notification"]]

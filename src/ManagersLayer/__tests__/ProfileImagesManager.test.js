@@ -13,7 +13,7 @@
 
 // jest.mock("../../LibsLayer/__mocks__/S3.lib.js");
 
-// const defaultProfileImagesBucketName = "spotjobs-profile-images-097579889258-us-east-1";
+// const defaultProfileImagesBucketName = "spotjobs-profile-images-097579889258-us-east-2";
 
 // describe("Testing Profile Images Manager", () => {
 //   beforeEach(() => {
@@ -119,7 +119,7 @@
 //       const filename = `${mockedUUID.defaultId}.png`;
 //       const imageType = profileImageTypes.avatar;
 
-//       const expectedResponse = "https://spotjobs-profile-images-097579889258-us-east-1.s3.amazonaws.com/avatars/1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARNOBW6JVEBDKSV4B%2F20200121%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200121T095301Z&X-Amz-Expires=900&X-Amz-Signature=25f27ea6cfa938b24d482a7c3f496b772db5e510dae0bf9178c541ba862c53b2&X-Amz-SignedHeaders=host";
+//       const expectedResponse = "https://spotjobs-profile-images-097579889258-us-east-2.s3.amazonaws.com/avatars/1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARNOBW6JVEBDKSV4B%2F20200121%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200121T095301Z&X-Amz-Expires=900&X-Amz-Signature=25f27ea6cfa938b24d482a7c3f496b772db5e510dae0bf9178c541ba862c53b2&X-Amz-SignedHeaders=host";
 
 //       const response = ProfileImagesManager.getSignedURLForProfileImage(
 //         imageType,

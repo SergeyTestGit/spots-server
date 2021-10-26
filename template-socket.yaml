@@ -32,8 +32,8 @@ Resources:
       Handler: index.handler
       Role: arn:aws:iam::408275994567:role/LambaRole
       Layers:
-        - arn:aws:lambda:us-east-1:408275994567:layer:ManagersLayer:25
-        - arn:aws:lambda:us-east-1:408275994567:layer:DependenciesLayer:9
+        - arn:aws:lambda:us-east-2:408275994567:layer:ManagersLayer:25
+        - arn:aws:lambda:us-east-2:408275994567:layer:DependenciesLayer:9
   OnAuthenticateFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -42,8 +42,8 @@ Resources:
       Handler: index.handler
       Role: arn:aws:iam::408275994567:role/LambaRole
       # Layers:
-      #   - arn:aws:lambda:us-east-1:408275994567:layer:ManagersLayer:25
-      #   - arn:aws:lambda:us-east-1:408275994567:layer:DependenciesLayer:9
+      #   - arn:aws:lambda:us-east-2:408275994567:layer:ManagersLayer:25
+      #   - arn:aws:lambda:us-east-2:408275994567:layer:DependenciesLayer:9
   SendMessageFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -52,8 +52,8 @@ Resources:
       Handler: index.handler
       Role: arn:aws:iam::408275994567:role/LambaRole
       Layers:
-        - arn:aws:lambda:us-east-1:408275994567:layer:ManagersLayer:25
-        - arn:aws:lambda:us-east-1:408275994567:layer:DependenciesLayer:9
+        - arn:aws:lambda:us-east-2:408275994567:layer:ManagersLayer:25
+        - arn:aws:lambda:us-east-2:408275994567:layer:DependenciesLayer:9
 
   ####################################
   ########## Sockets #################

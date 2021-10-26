@@ -1,6 +1,6 @@
 const dynamoose = require("dynamoose");
 dynamoose.AWS.config.update({
-  region: 'us-east-1'
+  region: 'us-east-2'
 });
 const uuid = require("uuid");
 const { Schema } = dynamoose;

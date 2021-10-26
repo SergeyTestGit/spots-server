@@ -52,7 +52,7 @@ const getNotificationsEmail = async notificationData => {
   emailData = {
     ...emailData,
     ...usersLanguageEmailsTextData,
-    logoUrl: `https://${DEFAULT_BUCKET_NAME}-097579889258-us-east-1.s3.amazonaws.com/email-icons/FN+2+SPOTJOBS++copy+8.png`
+    logoUrl: `https://${DEFAULT_BUCKET_NAME}-097579889258-us-east-2.s3.amazonaws.com/email-icons/FN+2+SPOTJOBS++copy+8.png`
   };
 
   console.log({ emailData });

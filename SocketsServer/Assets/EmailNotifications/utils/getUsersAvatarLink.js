@@ -6,7 +6,7 @@ module.exports = userProfile => {
   const { avatarURL, username } = userProfile;
 
   if (!avatarURL) {
-    return `https://${DEFAULT_BUCKET_NAME}-097579889258-us-east-1.s3.amazonaws.com/email-icons/no_img.png`;
+    return `https://${DEFAULT_BUCKET_NAME}-097579889258-us-east-2.s3.amazonaws.com/email-icons/no_img.png`;
   }
 
   const usersAvatarSignedUrl = ProfileImagesManager.getSignedURLForProfileImage(

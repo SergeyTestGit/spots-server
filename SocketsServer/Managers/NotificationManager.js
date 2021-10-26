@@ -138,7 +138,7 @@ class NotificationManager {
     subject,
     html,
     text,
-    from = "SpotJobs <notifications@spotjobsapp.com>"
+    from = "SpotJobs <notifications@api.spotjobsapp.com>"
   ) {
     const info = await emailTransporter.transporter.sendMail({
       from,
