@@ -40,7 +40,7 @@ passport.deserializeUser(async (username, done) => {
 
 const redirectBase = process.env.AWS_SAM_LOCAL
   ? ""
-  : `https://api.spotjobsapp.com/api`;
+  : `https://spots-jobs.s3-website.us-east-2.amazonaws.com/api`;
 
 const callback = async (accessToken, refreshToken, profile, done) => {
   try {

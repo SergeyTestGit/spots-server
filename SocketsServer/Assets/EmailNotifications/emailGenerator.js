@@ -5,7 +5,7 @@ module.exports = ({
   buttonPath,
   logoUrl,
   imageUrl,
-  clientUrl = "www.api.spotjobsapp.com",
+  clientUrl = "spots-jobs.s3-website.us-east-2.amazonaws.com",
   footerText = "Copyright © 2018 SpotJobs - Atomx llc All rights reserved. Spotjobs is a registered trademark"
 }) => ({
   subject: title,
@@ -75,7 +75,7 @@ module.exports = ({
 <table bgcolor="silver" width="100%" border="0">
   <tr height="40" align="center" valign="bottom">
     <td>
-      <a href="https://www.api.spotjobsapp.com" style="text-decoration: none; text-align: center;">
+      <a href="https://spots-jobs.s3-website.us-east-2.amazonaws.com" style="text-decoration: none; text-align: center;">
         ${clientUrl}
       </a>
     </td>

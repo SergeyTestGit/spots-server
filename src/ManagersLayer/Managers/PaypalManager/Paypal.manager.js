@@ -20,7 +20,7 @@ const { paypalCli, configurePaypal } = require("./paypal.lib");
 class PaypalManager {
   async createPayment(pointsAmount, userId, callback, usersRedirectUrl) {
     try {
-      const redirectURI = `https://api.spotjobsapp.com/api/paypal/callback`;
+      const redirectURI = `https://spots-jobs.s3-website.us-east-2.amazonaws.com/api/paypal/callback`;
 
       console.log("createPayment");
       await configurePaypal();

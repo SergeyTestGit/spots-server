@@ -18,7 +18,7 @@ SOCKET_SERVER_INSTANCE_TYPE="t2.micro"
 LAMBDAS_BUCKET_NAME="lambdas"
 STAGE='prod'
 
-WEB_APP_DOMAIN_NAME="api.spotjobsapp.com"
+WEB_APP_DOMAIN_NAME="spots-jobs.s3-website.us-east-2.amazonaws.com"
 WEB_APP_DOMAIN_SSL_CERITIFICATE_ID="a8d345db-d93d-41cc-9a09-70424f667009"
 
 DB_REGIONS=($REGION)
@@ -425,9 +425,9 @@ npm i
 echo "${BOLD_TEXT}> Writing project environment variables file...${NORMAL_TEXT}"
 # WRITE ENVIRONMENT VARIABLES
 echo "NODE_PATH=src/" >$ENV_FILE_NAME
-echo "REACT_APP_API_URL=https://api.spotjobsapp.com/api" >>$ENV_FILE_NAME
+echo "REACT_APP_API_URL=https://spots-jobs.s3-website.us-east-2.amazonaws.com/api" >>$ENV_FILE_NAME
 echo "REACT_APP_SECOND_API=$SOCKET_SERVER_URL" >>$ENV_FILE_NAME
-echo "REACT_APP_CLIENT_URL=https://www.api.spotjobsapp.com" >>$ENV_FILE_NAME
+echo "REACT_APP_CLIENT_URL=https://spots-jobs.s3-website.us-east-2.amazonaws.com" >>$ENV_FILE_NAME
 echo "REACT_APP_APP_BUNDLE_ID=com.spotjobs.mobile" >>$ENV_FILE_NAME
 echo "REACT_APP_LOGO_PATH=https://s3.amazonaws.com/${PUBLIC_S3_BUCKET_URL}/email-icons/FN+2+SPOTJOBS++copy+8.png" >>$ENV_FILE_NAME
 echo "REACT_APP_SOCKET_API=$SOCKET_SERVER_URL" >>$ENV_FILE_NAME
@@ -592,6 +592,6 @@ echo "** MANUAL STEPS REQUIRED **"
 echo "***************************"
 echo "${NORMAL_TEXT}"
 echo "Don't forget to change the social media redirect url:"
-echo "- Google: https://api.spotjobsapp.com/${STAGE}/auth/oauth/google/callback"
-echo "- Facebook: https://api.spotjobsapp.com/${STAGE}/auth/oauth/facebook/callback"
-echo "- Linkedin: https://api.spotjobsapp.com/${STAGE}/auth/oauth/linkedin/callback"
+echo "- Google: https://spots-jobs.s3-website.us-east-2.amazonaws.com/${STAGE}/auth/oauth/google/callback"
+echo "- Facebook: https://spots-jobs.s3-website.us-east-2.amazonaws.com/${STAGE}/auth/oauth/facebook/callback"
+echo "- Linkedin: https://spots-jobs.s3-website.us-east-2.amazonaws.com/${STAGE}/auth/oauth/linkedin/callback"

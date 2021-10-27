@@ -1,2 +1,2 @@
-module.exports.APP_LINK = "www.api.spotjobsapp.com";
+module.exports.APP_LINK = "spots-jobs.s3-website.us-east-2.amazonaws.com";
 // module.exports.APP_LINK = "https://dzbbrssnsxdez.cloudfront.net";

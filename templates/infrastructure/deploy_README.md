@@ -42,7 +42,7 @@ Such parameters as userpool name or any of bucket names would be prefixed with t
 | --socket-server-instance-type | Socket Server Instance Type    | t2.micro                             |
 | --lambdas-bucket-name         | API lambdas bucket name        | lambdas                              |
 | --stage-name                  | API Gateway stage name         | prod                                 |
-| --web-app-domain-name         | Web App Domain Name            | api.spotjobsapp.com                      |
+| --web-app-domain-name         | Web App Domain Name            | spots-jobs.s3-website.us-east-2.amazonaws.com                      |
 | --web-app-domain-ssl-cert-id  | Web App Domain SSL ACM Cert ID | a8d345db-d93d-41cc-9a09-70424f667009 |
 | --db-regions                  | Regions to deploy DB Tables    | `!Ref --region`                      |
 |                               | (regions separated with space) |                                      |
