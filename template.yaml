@@ -35,7 +35,7 @@ Globals:
         StageName: dev
         UserPoolId: us-east-1_ddCrkL0qE
         ClientAppId: 6ac1gpnt4j5p2ocgk77eadh4sg
-        IdentityPoolId: us-east-2:a3c2ccc9-38ab-4fbb-a2ba-18e3894f6ed3
+        IdentityPoolId: us-east-2:a48c1f5c-a2f1-42b3-ae55-e7cf2c5e20ad
         region: us-east-2
         PROFILE_IMAGES_BUCKET_NAME: !Ref ProfileImagesBucketName
         IMAGES_BUCKET: !Ref ImagesBucketName
