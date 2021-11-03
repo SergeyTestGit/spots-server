@@ -33,29 +33,29 @@ Globals:
     Environment:
       Variables:
         StageName: dev
-        UserPoolId: us-east-1_ddCrkL0qE
-        ClientAppId: 6ac1gpnt4j5p2ocgk77eadh4sg
+        UserPoolId: us-east-2_Rc2DpcSq8
+        ClientAppId: e6vcpfdg1tsj0g0ff4r9ad1pq
         IdentityPoolId: us-east-2:a48c1f5c-a2f1-42b3-ae55-e7cf2c5e20ad
         region: us-east-2
         PROFILE_IMAGES_BUCKET_NAME: !Ref ProfileImagesBucketName
         IMAGES_BUCKET: !Ref ImagesBucketName
         #OAuth Google configs
-        PROVIDER_GOOGLE_ID: "524873855211-4m45do11tm07s5017osdvado7p0hlkv7.apps.googleusercontent.com"
-        PROVIDER_GOOGLE_SECRET: "NAzA0R9IQPbVqU4lkAoV01R2"
-        GOOGLE_AUTH_CLIENT_REDIRRECT: "https://dzbbrssnsxdez.cloudfront.net/"
+       # PROVIDER_GOOGLE_ID: "524873855211-4m45do11tm07s5017osdvado7p0hlkv7.apps.googleusercontent.com"
+       # PROVIDER_GOOGLE_SECRET: "NAzA0R9IQPbVqU4lkAoV01R2"
+       # GOOGLE_AUTH_CLIENT_REDIRRECT: "https://dzbbrssnsxdez.cloudfront.net/"
         #OAuth Facebook configs
-        PROVIDER_FACEBOOK_ID: "346805129212763"
-        PROVIDER_FACEBOOK_SECRET: "7c517c89b204d641ca822e4ae4e63321"
-        FACEBOOK_AUTH_CLIENT_REDIRRECT: "https://dzbbrssnsxdez.cloudfront.net/"
+       # PROVIDER_FACEBOOK_ID: "346805129212763"
+       # PROVIDER_FACEBOOK_SECRET: "7c517c89b204d641ca822e4ae4e63321"
+       # FACEBOOK_AUTH_CLIENT_REDIRRECT: "https://dzbbrssnsxdez.cloudfront.net/"
         #OAuth LinkedIn configs
-        PROVIDER_LINKEDIN_CLIENT_ID: "783fasrlywrxz3"
-        PROVIDER_LINKEDIN_CLIENT_SECRET: "KlpQsMKPSf5Q1b9e"
-        LINKEDIN_AUTH_CLIENT_REDIRRECT: "https://dzbbrssnsxdez.cloudfront.net/"
-        SHOULD_PHONE_BE_VERIFIED_IN_COMPLETE_PROFILE: false
-        SEND_NOTIFICATION_ENDPOINT: "http://spotjobs-socket-server-768469600.us-east-2.elb.amazonaws.com/notification"
+       # PROVIDER_LINKEDIN_CLIENT_ID: "783fasrlywrxz3"
+       # PROVIDER_LINKEDIN_CLIENT_SECRET: "KlpQsMKPSf5Q1b9e"
+       # LINKEDIN_AUTH_CLIENT_REDIRRECT: "https://dzbbrssnsxdez.cloudfront.net/"
+       # SHOULD_PHONE_BE_VERIFIED_IN_COMPLETE_PROFILE: false
+       # SEND_NOTIFICATION_ENDPOINT: "http://spotjobs-socket-server-768469600.us-east-2.elb.amazonaws.com/notification"
         # PayPal redirect configs
-        PAYPAL_CLIENT_REDIRRECT_SUCCESS: "https://dzbbrssnsxdez.cloudfront.net/"
-        PAYPAL_CLIENT_REDIRRECT_FAILURE: "https://dzbbrssnsxdez.cloudfront.net/"
+       # PAYPAL_CLIENT_REDIRRECT_SUCCESS: "https://dzbbrssnsxdez.cloudfront.net/"
+       # PAYPAL_CLIENT_REDIRRECT_FAILURE: "https://dzbbrssnsxdez.cloudfront.net/"
 
 Resources:
   CognitoAuthorizerFunction:
@@ -64,7 +64,7 @@ Resources:
       FunctionName: !Join ["-", [!Ref ApiName, "CognitoAuthorizerFunction"]]
       CodeUri: ./src/Handlers/Authorizers/cognitoAuthorizer
       Handler: index.handler
-      KmsKeyArn: arn:aws:kms:us-east-2:408275994567:key/8b32a2a5-79f0-4866-aaa8-4b0d2982bedc
+      KmsKeyArn: arn:aws:kms:us-east-2:747423331120:key/mrk-c4d23b65809143b29a9c5a9647291bd8
       Layers:
         - !Ref DependenciesLayer
         - !Ref ManagersLayer

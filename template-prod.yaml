@@ -18,11 +18,11 @@ Parameters:
   ProfileImagesBucketName:
     Type: String
     Description: Profile images bucket name
-    Default: spotjobs-profile-images-097579889258-us-east-2
+    Default: dev-profile-photos-408275994567-us-east-2
   ImagesBucketName:
     Type: String
     Description: Images Bucket name
-    Default: spotjobs-images-097579889258-us-east-2
+    Default: dev-profile-photos-408275994567-us-east-2
   SocketServerUrl:
     Type: String
     Description: Socket Server URL
