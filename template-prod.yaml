@@ -18,23 +18,23 @@ Parameters:
   ProfileImagesBucketName:
     Type: String
     Description: Profile images bucket name
-    Default: dev-profile-photos-408275994567-us-east-2
+    Default: spots-jobs-dev-408275994567-us-east-2
   ImagesBucketName:
     Type: String
     Description: Images Bucket name
-    Default: dev-profile-photos-408275994567-us-east-2
-  SocketServerUrl:
-    Type: String
-    Description: Socket Server URL
-    Default: http://ec2-3-91-150-94.compute-1.amazonaws.com
+    Default: spots-jobs-dev-408275994567-us-east-2
+  # SocketServerUrl:
+  #   Type: String
+  #   Description: Socket Server URL
+  #   Default: http://ec2-3-91-150-94.compute-1.amazonaws.com
   UserPoolId:
     Type: String
     Description: AWS Cognito UserPool ID
-    Default: us-east-1_LdzW4vWV0
+    Default: us-east-2_Rc2DpcSq8
   ClientAppId:
     Type: String
     Description: AWS Cognito UserPool Clinet App ID
-    Default: 5fcud13gep2ral7ptih85gqlqd
+    Default: e6vcpfdg1tsj0g0ff4r9ad1pq
   Stage:
     Type: String
     Description: AWS APIGateway stage name
@@ -54,23 +54,23 @@ Globals:
         PROFILE_IMAGES_BUCKET_NAME: !Ref ProfileImagesBucketName
         IMAGES_BUCKET: !Ref ImagesBucketName
         #OAuth Google configs
-        PROVIDER_GOOGLE_ID: "524873855211-4m45do11tm07s5017osdvado7p0hlkv7.apps.googleusercontent.com"
-        PROVIDER_GOOGLE_SECRET: "NAzA0R9IQPbVqU4lkAoV01R2"
-        GOOGLE_AUTH_CLIENT_REDIRRECT: "https://spots-jobs.s3-website.us-east-2.amazonaws.com/"
+        #PROVIDER_GOOGLE_ID: "524873855211-4m45do11tm07s5017osdvado7p0hlkv7.apps.googleusercontent.com"
+        #PROVIDER_GOOGLE_SECRET: "NAzA0R9IQPbVqU4lkAoV01R2"
+        #GOOGLE_AUTH_CLIENT_REDIRRECT: "https://spots-jobs.s3-website.us-east-2.amazonaws.com/"
         #OAuth Facebook configs
-        PROVIDER_FACEBOOK_ID: "346805129212763"
-        PROVIDER_FACEBOOK_SECRET: "7c517c89b204d641ca822e4ae4e63321"
-        FACEBOOK_AUTH_CLIENT_REDIRRECT: "https://spots-jobs.s3-website.us-east-2.amazonaws.com/"
+        #PROVIDER_FACEBOOK_ID: "346805129212763"
+        #PROVIDER_FACEBOOK_SECRET: "7c517c89b204d641ca822e4ae4e63321"
+        #FACEBOOK_AUTH_CLIENT_REDIRRECT: "https://spots-jobs.s3-website.us-east-2.amazonaws.com/"
         #OAuth LinkedIn configs
-        PROVIDER_LINKEDIN_CLIENT_ID: "783fasrlywrxz3"
-        PROVIDER_LINKEDIN_CLIENT_SECRET: "KlpQsMKPSf5Q1b9e"
-        LINKEDIN_AUTH_CLIENT_REDIRRECT: "https://spots-jobs.s3-website.us-east-2.amazonaws.com/"
+        #PROVIDER_LINKEDIN_CLIENT_ID: "783fasrlywrxz3"
+        #PROVIDER_LINKEDIN_CLIENT_SECRET: "KlpQsMKPSf5Q1b9e"
+        #LINKEDIN_AUTH_CLIENT_REDIRRECT: "https://spots-jobs.s3-website.us-east-2.amazonaws.com/"
         SHOULD_PHONE_BE_VERIFIED_IN_COMPLETE_PROFILE: false
-        SEND_NOTIFICATION_ENDPOINT:
-          !Join ["/", [!Ref SocketServerUrl, "notification"]]
+        #SEND_NOTIFICATION_ENDPOINT:
+          #!Join ["/", [!Ref SocketServerUrl, "notification"]]
         # PayPal redirect configs
-        PAYPAL_CLIENT_REDIRRECT_SUCCESS: "https://dzbbrssnsxdez.cloudfront.net/"
-        PAYPAL_CLIENT_REDIRRECT_FAILURE: "https://dzbbrssnsxdez.cloudfront.net/"
+        #PAYPAL_CLIENT_REDIRRECT_SUCCESS: "https://dzbbrssnsxdez.cloudfront.net/"
+        #PAYPAL_CLIENT_REDIRRECT_FAILURE: "https://dzbbrssnsxdez.cloudfront.net/"
 
 Resources:
   CognitoAuthorizerFunction:

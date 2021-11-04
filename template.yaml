@@ -18,7 +18,7 @@ Parameters:
   ProfileImagesBucketName:
     Type: String
     Description: Profile images bucket name
-    Default: dev-profile-photos-408275994567-us-east-2
+    Default: spots-jobs-dev-408275994567-us-east-2
   ImagesBucketName:
     Type: String
     Description: Images Bucket name

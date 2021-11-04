@@ -1,5 +1,5 @@
 // const DEFAULT_BUCKET_NAME = "spotjob-images-dev";
-// const PROFILE_IMAGES_BUCKET_NAME = "dev-profile-photos-408275994567-us-east-2";
+// const PROFILE_IMAGES_BUCKET_NAME = "spots-jobs-dev-408275994567-us-east-2";
 
 const DEFAULT_BUCKET_NAME = "spotjobs-images";
 const PROFILE_IMAGES_BUCKET_NAME =
