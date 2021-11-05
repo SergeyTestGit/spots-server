@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "spots-jobs-prod"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1b53kaaqlvhml"
+s3_prefix = "spots-jobs-prod"
+region = "us-east-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "ApiName=\"SpotJobs-API\" ProfileImagesBucketName=\"spots-jobs-dev-408275994567-us-east-2\" ImagesBucketName=\"spotjob-images-dev\""
+image_repositories = []

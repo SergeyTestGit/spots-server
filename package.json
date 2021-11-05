@@ -5,6 +5,7 @@
   "scripts": {
     "tester": "sam.cmd --version",
     "test": "jest",
+    "shTest": "sh ./commands/deploy_cloudformation_prod.sh",
     "dev": "sam.cmd local start-api --port 8080",
     "coverage": " istanbul cover npm test",
     "package": "sh ./commands/package.sh",
